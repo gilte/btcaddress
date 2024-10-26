@@ -6214,6 +6214,11 @@
     </script>
 
     <style>
+		* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -6223,6 +6228,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 10px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 label {
@@ -6235,17 +6250,16 @@ label {
 textarea {
     height: 150px;
     width: 100%;
-    max-width: 500px;
     font-size: 16px;
     padding: 12px;
     margin-bottom: 15px;
-    box-sizing: border-box;
     border: none;
     border-radius: 10px;
     background-color: #ffffff;
     color: #333;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.3s ease;
+    resize: none;
 }
 
 textarea:focus {
@@ -6256,10 +6270,8 @@ textarea:focus {
 button {
     height: 45px;
     width: 100%;
-    max-width: 200px;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 10px;
     border: none;
     border-radius: 25px;
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
@@ -6277,6 +6289,7 @@ h3 {
     margin-top: 20px;
     color: #34495e;
     text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .result-item {
@@ -6288,11 +6301,29 @@ h3 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 600px) {
-    textarea, button {
-        width: 100%;
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    textarea {
+        height: 120px;
+        font-size: 14px;
     }
 }
+
+
+
+    
 
         
     </style>
