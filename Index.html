@@ -6240,19 +6240,37 @@
             background-color: #fff;
             color: #333;
         }
-        button {
-            height: 40px;
-            width: 100%;
-            max-width: 200px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 70px;
-            border: none;
-            border-radius: 5px;
-            background-color: #87CEFA;
-            color: #fff;
-            transition: background-color 0.3s ease;
-        }
+        /* Estilo para o botão */
+button {
+    height: 50px;
+    width: 100%;
+    max-width: 250px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px; /* Ajuste a margem superior para movê-lo para baixo */
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: none;
+    border-radius: 8px;
+    background-color: #32CD32;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    left: -10%; /* Ajuste para mover o botão para a esquerda */
+}
+
+button:hover {
+    background-color: #228B22;
+}
+
+button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
         button:hover {
             background-color: #4682B4;
         }
