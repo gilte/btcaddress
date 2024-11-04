@@ -6215,66 +6215,111 @@
 
     <style>
 	
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        textarea {
-            height: 150px;
-            width: 100%;
-            max-width: 500px;
-            font-size: 16px;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
-            background-color: #fff;
-            color: #333;
-        }
-        button {
-            height: 40px;
-            width: 100%;
-            max-width: 200px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #87CEFA;
-            color: #fff;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #4682B4;
-        }
-        h3 {
-            margin-top: 20px;
-            color: #555;
-        }
-        .result-item {
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #f0f0f0;
-            word-wrap: break-word;
-        }
-        @media (max-width: 600px) {
-            textarea {
-                width: 100%;
-            }
-            button {
-                width: 100%;
-            }
-        }
+       /* Estilo geral do corpo */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #ffffff;
+}
+
+/* Contêiner principal */
+.container {
+    background-color: #ffffff0d;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Título */
+h2 {
+    margin-bottom: 20px;
+    color: #e0e0e0;
+    font-size: 1.8em;
+}
+
+/* Estilos para o textarea */
+label {
+    font-size: 1em;
+    color: #e0e0e0;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+textarea {
+    height: 150px;
+    width: 100%;
+    max-width: 500px;
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 2px solid #87CEEB;
+    border-radius: 8px;
+    resize: none;
+    background-color: #ffffff0a;
+    color: #ffffff;
+}
+
+/* Estilo para o botão */
+button {
+    height: 50px;
+    width: 100%;
+    max-width: 200px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #32CD32;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+    background-color: #228B22;
+}
+
+button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo dos resultados */
+.result-item {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffffff10;
+    color: #e0e0e0;
+    word-wrap: break-word;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    h2 {
+        font-size: 1.5em;
+    }
+    textarea {
+        font-size: 14px;
+    }
+    button {
+        width: 100%;
+    }
+}
+
 
 	
 
