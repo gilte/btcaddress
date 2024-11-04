@@ -6215,117 +6215,66 @@
 
     <style>
 		
-	/* Estilo geral do corpo */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #4a90e2, #004080);
-    color: #333;
-}
-
-/* Contêiner centralizado */
-.container {
-    width: 90%;
-    max-width: 600px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-/* Estilo do título */
-h2 {
-    color: #004080;
-    font-size: 1.8em;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Estilos para o label */
-label {
-    font-size: 1em;
-    color: #004080;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
-}
-
-/* Estilos para o textarea */
-textarea {
-    width: 100%;
-    height: 150px;
-    font-size: 16px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 2px solid #87CEEB;
-    border-radius: 8px;
-    resize: none;
-    background-color: #ffffff;
-    color: #333;
-    box-sizing: border-box;
-}
-
-/* Estilo para o botão */
-button {
-    height: 50px;
-    width: 100%;
-    max-width: 250px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-    border: none;
-    border-radius: 8px;
-    background-color: #32CD32;
-    color: #fff;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-button:hover {
-    background-color: #228B22;
-}
-
-button:active {
-    transform: scale(0.98);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Estilo dos resultados */
-.result-item {
-    margin-top: 15px;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: rgba(240, 240, 240, 0.9);
-    color: #333;
-    word-wrap: break-word;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsividade */
-@media (max-width: 600px) {
-    h2 {
-        font-size: 1.5em;
-    }
-    .container {
-        padding: 15px;
-    }
-    button {
-        width: 100%;
-        font-size: 14px;
-    }
-    textarea {
-        font-size: 14px;
-        height: 120px;
-    }
-}
-
+		body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        textarea {
+            height: 150px;
+            width: 100%;
+            max-width: 500px;
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            background-color: #fff;
+            color: #333;
+        }
+        button {
+            height: 40px;
+            width: 100%;
+            max-width: 200px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 30px;
+            border: none;
+            border-radius: 5px;
+            background-color: #87CEFA;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4682B4;
+        }
+        h3 {
+            margin-top: 20px;
+            color: #555;
+        }
+        .result-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            word-wrap: break-word;
+        }
+        @media (max-width: 600px) {
+            textarea {
+                width: 100%;
+            }
+            button {
+                width: 100%;
+            }
+        }
        
 
 	
