@@ -6330,130 +6330,134 @@ button:active {
         }
     </script>
 </body>
+<script>
+    // Inicializa a biblioteca elliptic
+    const EC = elliptic.ec;
+    const ec = new EC('secp256k1');
 
+    // Função para validar se a chave privada é hexadecimal e tem o comprimento correto
+    function validatePrivateKey(privateKey) {
+        return is.hexadecimal(privateKey) && privateKey.length === 64;
+    }
 
-
-    <script>
-        // Inicializa a biblioteca elliptic
-        const EC = elliptic.ec;
-        const ec = new EC('secp256k1');
-
-        // Função para validar se a chave privada é hexadecimal e tem o comprimento correto
-        function validatePrivateKey(privateKey) {
-            return is.hexadecimal(privateKey) && privateKey.length === 64;
+    // Função para compressar a chave pública
+    function compressPublicKey(publicKey) {
+        if (publicKey.startsWith('04')) {
+            const x = publicKey.slice(2, 66);
+            const y = publicKey.slice(66, 130);
+            const yLastByte = parseInt(y.slice(-1), 16);
+            return (yLastByte % 2 === 0 ? '02' : '03') + x;
         }
+        return publicKey; // Já está comprimida
+    }
 
-        // Função para compressar a chave pública
-        function compressPublicKey(publicKey) {
-            if (publicKey.startsWith('04')) {
-                const x = publicKey.slice(2, 66);
-                const y = publicKey.slice(66, 130);
-                const yLastByte = parseInt(y.slice(-1), 16);
-                return (yLastByte % 2 === 0 ? '02' : '03') + x;
-            }
-            return publicKey; // Já está comprimida
-        }
-
-        // Função para descomprimir a chave pública
-        function decompressPublicKey(compressedPublicKey) {
-            if (compressedPublicKey.startsWith('02') || compressedPublicKey.startsWith('03')) {
-                const x = compressedPublicKey.slice(2);
-                const prefix = compressedPublicKey.startsWith('02') ? 0 : 1;
-                
-                // Calcula a coordenada Y
-                const point = ec.curve.pointFromX(BigInt('0x' + x), prefix === 1);
-                const y = point.getY().toArray('hex', 32);
-                
-                return '04' + x + y;
-            }
-            return compressedPublicKey; // Já está descomprimida
-        }
-
-        // Função para codificar em Base58
-        function base58Encode(hex) {
-            const alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-            let num = BigInt('0x' + hex);
-            let output = '';
-            while (num > 0) {
-                const mod = num % 58n;
-                output = alphabet[mod] + output;
-                num = num / 58n;
-            }
-            // Adicionar caracteres '1' para os bytes de prefixo zero
-            const prefix = hex.match(/^00+/);
-            return (prefix ? prefix[0].length / 2 : '') + output;
-        }
-
-        // Função para gerar o endereço Bitcoin a partir da chave pública
-        function generateBitcoinAddress(publicKeyHex) {
-            const sha256Hash = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(publicKeyHex));
-            const ripemd160Hash = CryptoJS.RIPEMD160(sha256Hash).toString(CryptoJS.enc.Hex);
-
-            const prefixAndHash = '00' + ripemd160Hash;
-            const doubleSHA256 = CryptoJS.SHA256(CryptoJS.SHA256(CryptoJS.enc.Hex.parse(prefixAndHash))).toString(CryptoJS.enc.Hex);
-            const checksum = doubleSHA256.slice(0, 8);
-
-            const addressHex = prefixAndHash + checksum;
-            const addressBase58 = base58Encode(addressHex);
-
-            return addressBase58;
-        }
-
-        // Função para gerar a chave privada WIF
-        function generateWIF(privateKeyHex, isCompressed) {
-            const prefix = '80'; // Prefixo para chaves privadas
-            const suffix = isCompressed ? '01' : ''; // '01' para chaves compressas
-            const privateKeyWithPrefix = prefix + privateKeyHex + suffix;
+    // Função para descomprimir a chave pública
+    function decompressPublicKey(compressedPublicKey) {
+        if (compressedPublicKey.startsWith('02') || compressedPublicKey.startsWith('03')) {
+            const x = compressedPublicKey.slice(2);
+            const prefix = compressedPublicKey.startsWith('02') ? 0 : 1;
             
-            const sha256_1 = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(privateKeyWithPrefix)).toString(CryptoJS.enc.Hex);
-            const sha256_2 = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(sha256_1)).toString(CryptoJS.enc.Hex);
-            const checksum = sha256_2.slice(0, 8);
-
-            const wifHex = privateKeyWithPrefix + checksum;
-            return base58Encode(wifHex);
+            // Calcula a coordenada Y
+            const point = ec.curve.pointFromX(BigInt('0x' + x), prefix === 1);
+            const y = point.getY().toArray('hex', 32);
+            
+            return '04' + x + y;
         }
+        return compressedPublicKey; // Já está descomprimida
+    }
 
-        // Função para gerar a chave pública e o endereço Bitcoin a partir da chave privada
-        function generateAddresses() {
-            const privateKeys = document.getElementById("privateKeyInput").value.split('\n').map(key => key.trim()).filter(key => key);
+    // Função para codificar em Base58
+    function base58Encode(hex) {
+        const alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+        let num = BigInt('0x' + hex);
+        let output = '';
+        while (num > 0) {
+            const mod = num % 58n;
+            output = alphabet[mod] + output;
+            num = num / 58n;
+        }
+        // Adicionar caracteres '1' para os bytes de prefixo zero
+        const prefix = hex.match(/^00+/);
+        return (prefix ? prefix[0].length / 2 : '') + output;
+    }
 
-            const resultsContainer = document.getElementById("results");
-            resultsContainer.innerHTML = ''; // Limpa resultados anteriores
+    // Função para gerar o endereço Bitcoin a partir da chave pública
+    function generateBitcoinAddress(publicKeyHex) {
+        const sha256Hash = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(publicKeyHex));
+        const ripemd160Hash = CryptoJS.RIPEMD160(sha256Hash).toString(CryptoJS.enc.Hex);
 
-            for (const privateKey of privateKeys) {
-                if (validatePrivateKey(privateKey)) {
-                    // Gera a chave pública a partir da chave privada
-                    const keyPair = ec.keyFromPrivate(privateKey, 'hex');
-                    const publicKey = keyPair.getPublic(true, 'hex');
+        const prefixAndHash = '00' + ripemd160Hash;
+        const doubleSHA256 = CryptoJS.SHA256(CryptoJS.SHA256(CryptoJS.enc.Hex.parse(prefixAndHash))).toString(CryptoJS.enc.Hex);
+        const checksum = doubleSHA256.slice(0, 8);
 
-                    // Comprime a chave pública
-                    const compressedPublicKey = compressPublicKey(publicKey);
+        const addressHex = prefixAndHash + checksum;
+        const addressBase58 = base58Encode(addressHex);
 
-                    // Gera o endereço Bitcoin
-                    const bitcoinAddress = generateBitcoinAddress(compressedPublicKey);
+        return addressBase58;
+    }
 
-                    // Gera a chave privada WIF
-                    const isCompressed = compressedPublicKey.startsWith('02') || compressedPublicKey.startsWith('03');
-                    const wifPrivateKey = generateWIF(privateKey, isCompressed);
+    // Função para gerar a chave privada WIF
+    function generateWIF(privateKeyHex, isCompressed) {
+        const prefix = '80'; // Prefixo para chaves privadas
+        const suffix = isCompressed ? '01' : ''; // '01' para chaves compressas
+        const privateKeyWithPrefix = prefix + privateKeyHex + suffix;
+        
+        const sha256_1 = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(privateKeyWithPrefix)).toString(CryptoJS.enc.Hex);
+        const sha256_2 = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(sha256_1)).toString(CryptoJS.enc.Hex);
+        const checksum = sha256_2.slice(0, 8);
 
-                    resultsContainer.innerHTML += `
-                        <div class="result-item">
-                            <h4>Chave Privada:</h4>
-                            <p>${privateKey}</p>
-                            <h4>Chave Privada WIF:</h4>
-                            <p>${wifPrivateKey}</p>
-                            <h4>Chave Pública Comprimida:</h4>
-                            <p>${compressedPublicKey}</p>
-                            <h4>Endereço Bitcoin:</h4>
-                            <p>${bitcoinAddress}</p>
-                            <hr>
-                        </div>
-                    `;
-                } else {
-                    resultsContainer.innerHTML += `<div class="result-item"><strong>Erro:</strong> Chave privada ${privateKey} inválida.</div>`;
-                }
+        const wifHex = privateKeyWithPrefix + checksum;
+        return base58Encode(wifHex);
+    }
+
+    // Função para gerar a chave pública e o endereço Bitcoin a partir da chave privada
+    function generateAddresses() {
+        const privateKeys = document.getElementById("privateKeyInput").value.split('\n').map(key => key.trim()).filter(key => key);
+
+        const resultsContainer = document.getElementById("results");
+        resultsContainer.innerHTML = ''; // Limpa resultados anteriores
+
+        for (const privateKey of privateKeys) {
+            if (validatePrivateKey(privateKey)) {
+                // Gera a chave pública a partir da chave privada
+                const keyPair = ec.keyFromPrivate(privateKey, 'hex');
+                const publicKey = keyPair.getPublic(true, 'hex');
+
+                // Comprime a chave pública
+                const compressedPublicKey = compressPublicKey(publicKey);
+
+                // Gera o endereço Bitcoin
+                const bitcoinAddress = generateBitcoinAddress(compressedPublicKey);
+
+                // Gera a chave privada WIF
+                const isCompressed = compressedPublicKey.startsWith('02') || compressedPublicKey.startsWith('03');
+                const wifPrivateKey = generateWIF(privateKey, isCompressed);
+
+                // Gera o hash RMD160 (RIPEMD-160) da chave pública
+                const sha256Hash = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(publicKey));
+                const ripemd160Hash = CryptoJS.RIPEMD160(sha256Hash).toString(CryptoJS.enc.Hex);
+
+                resultsContainer.innerHTML += `
+                    <div class="result-item">
+                        <h4>Chave Privada:</h4>
+                        <p>${privateKey}</p>
+                        <h4>Chave Privada WIF:</h4>
+                        <p>${wifPrivateKey}</p>
+                        <h4>Chave Pública Comprimida:</h4>
+                        <p>${compressedPublicKey}</p>
+                        <h4>Endereço Bitcoin:</h4>
+                        <p>${bitcoinAddress}</p>
+                        <h4>Hash RMD160 (RIPEMD-160):</h4>
+                        <p>${ripemd160Hash}</p>
+                        <hr>
+                    </div>
+                `;
+            } else {
+                resultsContainer.innerHTML += `<div class="result-item"><strong>Erro:</strong> Chave privada ${privateKey} inválida.</div>`;
             }
         }
-    </script>
+    }
+</script>
+ 
 </body>
 </html>
